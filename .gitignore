@@ -16,3 +16,4 @@
 
 # ignore other unneeded files
 *~
+bundler_stubs/
