@@ -46,7 +46,7 @@ describe "Authentication" do
     describe "for non-signed-in users" do
       let(:user) { FactoryGirl.create(:user) }
       
-       describe "when attempting to visit a protected page" do
+      describe "when attempting to visit a protected page" do
         before do
           visit edit_user_path(user)
           fill_in "Email",    with: user.email
@@ -72,6 +72,11 @@ describe "Authentication" do
         describe "submitting to the update action" do
           before { put user_path(user) }
           specify { response.should redirect_to(signin_path) }
+        end
+        
+        describe "visiting the user index" do
+          before { visit users_path }
+          it { should have_selector('title', text: 'Sign in') }
         end
       end
     end
