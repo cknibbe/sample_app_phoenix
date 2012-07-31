@@ -144,4 +144,21 @@ describe "User pages" do
       specify { user.reload.email.should == new_email }
     end
   end
+  
+  describe "signed in user" do
+    let(:user) { FactoryGirl.create(:user) }
+    before do
+      sign_in user
+    end
+    
+    describe "submitting a GET request to the User#new action" do
+      before { get new_user_path }
+      specify { response.should redirect_to(root_path) }
+    end
+    
+    describe "submitting a POST request to the Users#create action" do
+      before{ post users_path }
+      specify { response.should redirect_to(root_path) }
+    end
+  end
 end
