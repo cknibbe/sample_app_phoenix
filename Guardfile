@@ -49,9 +49,9 @@ guard 'rspec', :version => 2, :all_after_pass => false, :cli => '--drb' do
   end
 end
 
-# kjk 7/27/12, added:
-# :cli => '--drb'
-guard 'cucumber', :cli => '--drb' do
+# kjk 7/27/12, added:  :cli => '--drb'
+# kjk 8/1/12, added:   :all_after_pass => false
+guard 'cucumber', :all_after_pass => false, :cli => '--drb' do
   watch(%r{^features/.+\.feature$})
   watch(%r{^features/support/.+$})          { 'features' }
   watch(%r{^features/step_definitions/(.+)_steps\.rb$}) { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'features' }
