@@ -4,7 +4,10 @@
 # kjk 7/6/12: added per Hartl tutorial
 require 'active_support/core_ext'
 
-guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' }, :rspec_env => { 'RAILS_ENV' => 'test' } do
+# kjk 8/4/12, added ':wait'
+guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' },
+			   :rspec_env => { 'RAILS_ENV' => 'test' },
+			   :wait => 60 do
   watch('config/application.rb')
   watch('config/environment.rb')
   watch(%r{^config/environments/.+\.rb$})
