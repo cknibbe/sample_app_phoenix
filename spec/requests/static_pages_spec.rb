@@ -19,16 +19,35 @@ describe "Static pages" do
     
     describe "for signed-in users" do
       let(:user) { FactoryGirl.create(:user) }
-      before do
-        FactoryGirl.create(:micropost, user: user, content: "Lorem ipsum")
-        FactoryGirl.create(:micropost, user: user, content: "Dolor sit amet")
-        sign_in user
-        visit root_path
-      end
+      before { sign_in user }
       
       it "should render the user's feed" do
+        FactoryGirl.create(:micropost, user: user, content: "Lorem ipsum")
+        FactoryGirl.create(:micropost, user: user, content: "Dolor sit amet")
+        visit root_path
+        
         user.feed.each do |item|
           page.should have_selector("li##{item.id}", text: item.content)
+        end
+      end
+      
+      describe "should include count" do
+        it "of '0' microposts" do
+          visit root_path
+          page.should have_content("0 microposts")
+        end
+        
+        it "of '1' micropost" do
+          FactoryGirl.create(:micropost, user: user, content: "Lorem ipsum")
+          visit root_path
+          page.should have_content("1 micropost")
+        end
+        
+        it "of 'n' microposts" do
+          FactoryGirl.create(:micropost, user: user, content: "Lorem ipsum")
+          FactoryGirl.create(:micropost, user: user, content: "Dolor sit amet")
+          visit root_path
+          page.should have_content("#{user.microposts.count} microposts")
         end
       end
     end
